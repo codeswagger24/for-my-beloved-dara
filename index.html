@@ -110,13 +110,15 @@ body.locked{overflow:hidden}
     <div class="ask" id="ask"></div>
   </div>
 </main>
-<audio id="bgm" src="lovesong.mp3" loop preload="auto"></audio>
+<audio id="bgm" loop preload="auto"><source src="lovesong.mp3" type="audio/mpeg"><source src="Lovesong.mp3" type="audio/mpeg"></audio>
 <button class="music-btn" id="musicBtn" type="button" aria-pressed="false" hidden>♪ music off</button>
 <script>
 (function(){
   var a=document.getElementById("bgm"), b=document.getElementById("musicBtn"), open=document.getElementById("openBtn");
   function label(){var on=!a.paused;b.textContent=on?"♪ music on":"♪ music off";b.setAttribute("aria-pressed",on);}
   a.addEventListener("play",label);a.addEventListener("pause",label);
+  var last=a.lastElementChild;
+  if(last){last.addEventListener("error",function(){b.hidden=false;b.textContent="♪ song file not found";});}
   open.addEventListener("click",function(){
     var target=0.2, secs=4.0, t0=Date.now();
     a.volume=secs>0?0:target;
